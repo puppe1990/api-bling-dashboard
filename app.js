@@ -13,7 +13,7 @@ app.get('/api/pedidos', async (req, res) => {
       params: {
         pagina: 1,
         limite: 100,
-        idsSituacoes: [6],
+        idsSituacoes: [15],
       },
       headers: {
         Accept: 'application/json',
