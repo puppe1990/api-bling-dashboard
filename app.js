@@ -28,6 +28,26 @@ app.get('/api/pedidos', async (req, res) => {
   }
 });
 
+// New endpoint to fetch a specific sales order by ID
+app.get('/api/pedidos/:id', async (req, res) => {
+  const orderId = req.params.id;
+
+  try {
+    const response = await axios.get(`https://www.bling.com.br/Api/v3/pedidos/vendas/${orderId}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${process.env.KEY}`
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`API server is running on http://localhost:${PORT}`);
 });
