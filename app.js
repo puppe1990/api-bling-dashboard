@@ -3,6 +3,8 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
+app.use(express.json());
+
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
@@ -54,21 +56,25 @@ app.get('/api/get-token', async (req, res) => {
   if (!code) {
     return res.status(400).json({ error: 'Invalid code parameter.' });
   }
-  console.log('reveived code:')
-  console.log(code)
+
   try {
-    const response = await axios.post('https://www.bling.com.br/Api/v3/oauth/token', null, {
-      params: {
+    const response = await axios.post(
+      'https://www.bling.com.br/Api/v3/oauth/token',
+      {
         grant_type: 'authorization_code',
         code: code,
       },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': '1.0',
-        'Authorization': 'Basic NWZlZjQ1NDZmZDMyMjk3MzlmY2EyMzVhYTFjNjkyNTljODRhMjgxYjo5ODQ4MmQ5ZGFlMTk1NTQzZDRiNjc4MWI2NjYyMDBhZTMwMzg0ZmJhNjU1ZTI5NTQwNTg4M2JlNDA3MzM=',
-      },
-    });
-    console.log(response)
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: '1.0',
+          Authorization:
+            'Basic NWZlZjQ1NDZmZDMyMjk3MzlmY2EyMzVhYTFjNjkyNTljODRhMjgxYjo5ODQ4MmQ5ZGFlMTk1NTQzZDRiNjc4MWI2NjYyMDBhZTMwMzg0ZmJhNjU1ZTI5NTQwNTg4M2JlNDA3MzM=',
+        },
+      }
+    );
+
+    console.log(response.data);
     res.json(response.data);
   } catch (error) {
     console.error(error);
